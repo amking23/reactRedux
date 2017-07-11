@@ -9,10 +9,12 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 // import the messages sub-reducer
 import messages from './messages';
-import channels from './channels';
+import {channelReducer} from './channels';
+import newMessageEntry from './newMessageEntry';
+import nameEntryReducer from './nameEntry'
 
 const reducer = combineReducers({
-  messages, channels
+  messages, channelReducer, nameEntryReducer, newMessageEntry
 });
 
 const store = createStore(
@@ -27,3 +29,5 @@ export default store;
 
 export * from './messages';
 export * from './channels';
+export * from './newMessageEntry';
+export * from './nameEntry';

@@ -51,7 +51,7 @@ export function postChannel (channel, history) {
 
 }
 
-function reducer (state = initialState, action) {
+export function channelReducer (state = initialState, action) {
 
   switch (action.type) {
 

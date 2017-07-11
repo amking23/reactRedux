@@ -5,7 +5,7 @@ import socket from '../socket';
 
 const GET_MESSAGE = 'GET_MESSAGE';
 const GET_MESSAGES = 'GET_MESSAGES';
-const WRITE_MESSAGE = 'WRITE_MESSAGE';
+
 
 // ACTION CREATORS
 
@@ -16,11 +16,6 @@ export function getMessage (message) {
 
 export function getMessages (messages) {
   const action = { type: GET_MESSAGES, messages };
-  return action;
-}
-
-export function writeMessage (content) {
-  const action = { type: WRITE_MESSAGE, content };
   return action;
 }
 
@@ -38,20 +33,6 @@ export function fetchMessages () {
   }
 }
 
-export function postMessage (message) {
-
-  return function thunk (dispatch) {
-    return axios.post('/api/messages', message)
-      .then(res => res.data)
-      .then(newMessage => {
-        const action = getMessage(newMessage);
-        dispatch(action);
-        socket.emit('new-message', newMessage);
-      });
-  }
-
-}
-
 // REDUCER
 
 export default function messagesReducer (state = [], action) {
@@ -59,16 +40,10 @@ export default function messagesReducer (state = [], action) {
   switch (action.type) {
 
     case GET_MESSAGES:
-      return {
-        ...state,
-        messages: action.messages
-      };
+        return action.messages
 
     case GET_MESSAGE:
-      return {
-        ...state,
-        messages: [...state.messages, action.message]
-      };
+        return [...state, action.message]
 
     default:
       return state;
