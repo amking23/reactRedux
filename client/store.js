@@ -8,19 +8,16 @@ import socket from './socket';
 // INITIAL STATE
 
 const initialState = {
-  messages: [],
   name: 'Reggie',
   newMessageEntry: '',
-  channels: []
+  newChannelEntry: '',
+  channels: [],
 };
 
 // ACTION TYPES
 
 const UPDATE_NAME = 'UPDATE_NAME';
-const GET_MESSAGE = 'GET_MESSAGE';
-const GET_MESSAGES = 'GET_MESSAGES';
-const WRITE_MESSAGE = 'WRITE_MESSAGE';
-const GET_CHANNELS = 'GET_CHANNELS';
+
 
 // ACTION CREATORS
 
@@ -29,65 +26,10 @@ export function updateName (name) {
   return action;
 }
 
-export function getMessage (message) {
-  const action = { type: GET_MESSAGE, message };
-  return action;
-}
-
-export function getMessages (messages) {
-  const action = { type: GET_MESSAGES, messages };
-  return action;
-}
-
-export function writeMessage (content) {
-  const action = { type: WRITE_MESSAGE, content };
-  return action;
-}
-
-export function getChannels (channels) {
-  const action = {type: GET_CHANNELS, channels};
-  return action;
-} 
-
 // THUNK CREATORS
 
-export function fetchMessages () {
 
-  return function thunk (dispatch) {
-    return axios.get('/api/messages')
-      .then(res => res.data)
-      .then(messages => {
-        const action = getMessages(messages);
-        dispatch(action);
-      });
-  }
-}
 
-export function postMessage (message) {
-
-  return function thunk (dispatch) {
-    return axios.post('/api/messages', message)
-      .then(res => res.data)
-      .then(newMessage => {
-        const action = getMessage(newMessage);
-        dispatch(action);
-        socket.emit('new-message', newMessage);
-      });
-  }
-
-}
-
-export function fetchChannels () {
-
-  return function thunk (dispatch) {
-    return axios.get('/api/channels')
-    .then(res => res.data)
-    .then(channels => {
-      const action = getChannels(channels);
-      dispatch(action)
-    });
-  }
-}
 
 // REDUCER
 
@@ -123,28 +65,10 @@ function reducer (state = initialState, action) {
         name: action.name
       };
 
-    case GET_MESSAGES:
-      return {
-        ...state,
-        messages: action.messages
-      };
-
-    case GET_MESSAGE:
-      return {
-        ...state,
-        messages: [...state.messages, action.message]
-      };
-
-    case WRITE_MESSAGE:
+     case WRITE_MESSAGE:
       return {
         ...state,
         newMessageEntry: action.content
-      };
-
-    case GET_CHANNELS:
-      return {
-        ...state,
-        channels: action.channels
       };
 
     default:

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
-import store from '../store';
+import { NavLink, withRouter } from 'react-router-dom';
+import store from '../store/index';
 import { connect } from 'react-redux'
 
 // These values are all hardcoded...for now!
@@ -11,41 +11,21 @@ const DOGS_CHANNEL = '/channels/3';
 const LUNCH_CHANNEL = '/channels/4';
 
 function ChannelList(props) {
-
-  // constructor () {
-  //   super();
-  //   this.state = store.getState();
-  // }
-
-  // // componentDidMount () {
-  // //   this.unsubscribe = store.subscribe(() => this.setState(store.getState()));
-  // // }
-
-  // // componentWillUnmount () {
-  // //   this.unsubscribe();
-  // // }
-  
-
-  // render () {
-
-  //   const { messages } = this.state;
-  console.log('channels: ', props.channels)
-  console.log('props: ', props)
-    return (
-      <ul>
-        {props.channels.map((channel) => 
-          <li key={channel.id}>
-            <NavLink to={ `/channels/${channel.id}` } activeClassName="active">
-              <span> #{channel.name} </span>
-              <span className="badge">{ props.messages.filter(message => channel.id === message.channelId).length }</span>
-            </NavLink>
-          </li>
-          )}
-        <li>
-          <NavLink to="/new-channel">Create a channel...</NavLink>
+  return (
+    <ul>
+      {props.channels.map((channel) =>
+        <li key={channel.id}>
+          <NavLink to={ `/channels/${channel.id}` } activeClassName="active">
+            <span> #{channel.name} </span>
+            <span className="badge">{ props.messages.filter(message => channel.id === message.channelId).length }</span>
+          </NavLink>
         </li>
-      </ul>
-    );
+        )}
+      <li>
+        <NavLink to="/new-channel">Create a channel...</NavLink>
+      </li>
+    </ul>
+  );
 }
 
 
@@ -54,12 +34,13 @@ function ChannelList(props) {
 /** Write your `connect` component below! **/
 
 const mapStateToProps = function (state) {
+  console.log('state.channels: ', state.channels)
   return {
     channels: state.channels,
     messages: state.messages
   };
 };
 
-const ChannelListContainer = connect(mapStateToProps)(ChannelList)
+const ChannelListContainer = withRouter(connect(mapStateToProps)(ChannelList))
 
-export default ChannelListContainer
+export default ChannelListContainer;
