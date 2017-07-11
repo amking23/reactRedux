@@ -5,12 +5,9 @@ import { connect } from 'react-redux'
 
 // These values are all hardcoded...for now!
 // Soon, we'll fetch them from the server!
-const RANDOM_CHANNEL = '/channels/1';
-const GENERAL_CHANNEL = '/channels/2';
-const DOGS_CHANNEL = '/channels/3';
-const LUNCH_CHANNEL = '/channels/4';
 
 function ChannelList(props) {
+  console.log('props: ', props)
   return (
     <ul>
       {props.channels.map((channel) =>
@@ -34,9 +31,8 @@ function ChannelList(props) {
 /** Write your `connect` component below! **/
 
 const mapStateToProps = function (state) {
-  console.log('state.channels: ', state.channels)
   return {
-    channels: state.channels,
+    channels: state.channelReducer.channels,
     messages: state.messages
   };
 };

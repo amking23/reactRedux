@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import store, { updateName } from '../store';
+import store, { updateName } from '../store/index';
 
 export default class NameEntry extends Component {
 

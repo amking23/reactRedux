@@ -20,7 +20,6 @@ const mapDispatchToProps = function (dispatch, ownProps) {
 
 // receives state as an argument
 const mapStateToProps = function (state) {
-  console.log('state in NewChannelEntry: ', state);
   return {
     newChannelEntry: state.newChannelEntry,
   }
